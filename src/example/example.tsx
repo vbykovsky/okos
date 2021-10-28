@@ -20,6 +20,7 @@ export const Example = () => {
       <h3>{okosCounter}</h3>
       <button onClick={okosIncrement.bind(null, 1)}>increment</button>
       <button onClick={okosDecrement.bind(null, 1)}>decrement</button>
+      <br />
       <button onClick={asyncIncrement.bind(null, 1)}>async increment</button>
       <button onClick={asyncDecrement.bind(null, 1)}>async decrement</button>
     </div>

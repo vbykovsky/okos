@@ -1,3 +1,4 @@
+import { Draft } from "immer";
 import { createStore, selectorFactory } from "../index";
 
 export interface ICounterService {
@@ -9,25 +10,21 @@ const initialState: ICounterService = {
 };
 
 export const counterService = createStore(initialState, {
-  increment(state, additive: number) {
+  increment(state, additive: number = 1) {
     state.counter += additive;
   },
-  decrement(state, additive: number) {
+  decrement(state, additive: number = 1) {
     this.increment(state, -additive);
   },
-  async asyncIncrement(state, additive: number) {
-    return new Promise((res) => {
-      setTimeout(() => {
-        state.counter += additive;
-        res();
-      }, 1000);
-    })
+  async asyncIncrement(additive: number) {
+    return this.increment;
   },
-  async asyncDecrement(state, additive: number) {
-    return new Promise((res) => {
+  async asyncDecrement(additive: number) {
+    return new Promise<(state: Draft<ICounterService>) => void>((res) => {
       setTimeout(() => {
-        state.counter -= additive;
-        res();
+        res((state) => {
+          state.counter -= additive;
+        });
       }, 1000);
     })
   }

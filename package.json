@@ -1,8 +1,11 @@
 {
   "name": "okos",
-  "version": "1.0.25",
+  "version": "0.0.1",
   "description": "@okos is a library for storing and managing data in react",
+
   "main": "index",
+  "types": "index.d.ts",
+
   "scripts": {
     "dev": "webpack serve",
     "build": "tsc",
@@ -10,6 +13,7 @@
     "copy": "cp package.json ./dist/ && cp README.md ./dist/",
     "publish:dist": "npm run clear-dist && npm run build && npm run copy && npm publish ./dist"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vbykovsky/okos.git"
@@ -20,6 +24,7 @@
     "url": "https://github.com/vbykovsky/okos/issues"
   },
   "homepage": "https://github.com/vbykovsky/okos#readme",
+
   "dependencies": {
     "immer": "^9.0.6",
     "react": "^17.0.2",

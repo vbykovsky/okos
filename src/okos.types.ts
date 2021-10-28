@@ -5,8 +5,10 @@ export type OkosActionPayloadType = any;
 
 export type OkosSubscriberType<StateType> = (state: StateType) => void;
 
+export type OkosAsyncActionPromiseType<StateType> = (state: Draft<StateType>) => void;
+
 export type OkosActionType<StateType> = (state: Draft<StateType>, payload: OkosActionPayloadType) => void;
-export type OkosAsyncActionType<StateType> = (state: Draft<StateType>, payload: OkosActionPayloadType) => Promise<void>;
+export type OkosAsyncActionType<StateType> = (payload: OkosActionPayloadType) => Promise<OkosAsyncActionPromiseType<StateType>>;
 
 export type _OkosActionType<StateType> = OkosActionType<StateType> | OkosAsyncActionType<StateType>;
 
@@ -27,11 +29,10 @@ export type _OkosResultActionWithPayloadType<PayloadType> =
 export type __OkosResultActionType = _OkosResultActionType | _OkosResultActionWithPayloadType<OkosActionPayloadType>;
 
 export type OkosResultActionsType<StateType, ActionsType extends OkosActionsType<StateType>> = {
-  [T in keyof ActionsType]: Parameters<ActionsType[T]> extends [Draft<StateType>, infer PayloadType]
-    ? ReturnType<ActionsType[T]> extends Promise<void>
-      ? OkosResultAsyncActionWithPayloadType<PayloadType>
-      : OkosResultActionWithPayloadType<PayloadType>
-    : ReturnType<ActionsType[T]> extends Promise<void>
-    ? OkosResultAsyncActionType
-    : OkosResultActionType;
+  [T in keyof ActionsType]: ReturnType<ActionsType[T]> extends Promise<OkosAsyncActionPromiseType<StateType>>
+  ? Parameters<ActionsType[T]> extends [infer PayloadType] ? OkosResultAsyncActionWithPayloadType<PayloadType>
+  : OkosResultAsyncActionType
+  : Parameters<ActionsType[T]> extends [Draft<StateType>, infer PayloadType] ? OkosResultActionWithPayloadType<PayloadType>
+  :
+  OkosResultActionType;
 };

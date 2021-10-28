@@ -1,5 +1,5 @@
 import { generateAction, generateAsyncAction, isAsyncFunction } from "./okos.helpers";
-import { OkosActionsType, OkosResultActionsType, OkosSubscriberType, __OkosResultActionType } from "./okos.types";
+import { OkosActionsType, OkosResultActionsType, OkosSubscriberType, _OkosActionType, __OkosResultActionType } from "./okos.types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class Okos<StateType = any> {
@@ -50,7 +50,7 @@ export function createStore<
 
   for (const [actionName, actionCB] of Object.entries(actions)) {
     const generateFunction = isAsyncFunction(actionCB) ? generateAsyncAction : generateAction;
-    resultActions.push([actionName, generateFunction(actionCB.bind(actions), store)]);
+    resultActions.push([actionName, generateFunction(actionCB.bind(actions) as any, store)]);
   }
 
   return {

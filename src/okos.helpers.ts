@@ -1,11 +1,18 @@
 import produce from "immer";
-import { OkosActionPayloadType, _OkosActionType, __OkosResultActionType } from "./okos.types";
+import { OkosActionPayloadType, OkosActionType, OkosAsyncActionType, _OkosActionType, __OkosResultActionType } from "./okos.types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isAsyncFunction = (func: any) => (func as any).__proto__ === ((async () => 0) as any).__proto__;
+export const isAsyncFunction = (func: Function) => {
+  try{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (func() as any).__proto__ === Promise.prototype;
+  }
+  catch(e){
+    return false;
+  }
+};
 
 export function generateAction<StateType>(
-  action: _OkosActionType<StateType>,
+  action: OkosActionType<StateType>,
   store: { state: StateType; dispatch: (state: StateType) => void }
 ): __OkosResultActionType {
   return ((payload: OkosActionPayloadType) => {
@@ -18,12 +25,14 @@ export function generateAction<StateType>(
 }
 
 export function generateAsyncAction<StateType>(
-  action: _OkosActionType<StateType>,
+  action: OkosAsyncActionType<StateType>,
   store: { state: StateType; dispatch: (state: StateType) => void }
 ): __OkosResultActionType {
   return (async (payload: OkosActionPayloadType) => {
-    const newState = await produce(store.state, async (draftState) => {
-      await action(draftState, payload);
+    const actionCB = await action(payload);
+
+    const newState = produce(store.state, (draftState) => {
+      actionCB(draftState);
     });
 
     store.dispatch(newState);
