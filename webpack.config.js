@@ -1,26 +1,64 @@
-const developmentConfig = require("./configs/webpack.config.dev");
-const productionConfig = require("./configs/webpack.config.prod");
+const path = require("path");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = (env) => {
-  try {
-    const mode =
-      env.development === true
-        ? "development"
-        : env.production === true
-        ? "production"
-        : undefined;
+module.exports = () => ({
+  mode: "development",
 
-    if (!mode) {
-      throw new Error("Environment mode is undefined");
-    }
+  entry: "./src/example/index",
+  output: {
+    path: path.resolve("./dist"),
+  },
 
-    if (mode == "development") {
-      return developmentConfig();
-    }
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+  },
 
-    return productionConfig();
-  } catch (e) {
-    console.log("[WEBPACK ERROR]", e);
-    process.exit();
-  }
-};
+  devtool: "source-map",
+  devServer: {
+    port: 3000,
+    hot: true,
+    compress: true,
+    client: {
+      overlay: true,
+      progress: true,
+    },
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(),
+    new htmlWebpackPlugin({
+      template: "./src/example/index.html",
+    }),
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+            },
+          },
+          "ts-loader",
+        ],
+        exclude: [/node_modules/, /\.(test|spec)\.(ts|tsx)$/],
+      },
+    ],
+  },
+});

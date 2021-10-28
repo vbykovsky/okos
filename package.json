@@ -1,11 +1,14 @@
 {
   "name": "okos",
-  "version": "1.0.0",
+  "version": "1.0.25",
   "description": "@okos is a library for storing and managing data in react",
-  "main": "src/indext.s",
+  "main": "index",
   "scripts": {
-    "dev": "webpack serve --env development",
-    "build": "webpack --env production"
+    "dev": "webpack serve",
+    "build": "tsc",
+    "clear-dist": "rm -rf dist",
+    "copy": "cp package.json ./dist/ && cp README.md ./dist/",
+    "publish:dist": "npm run clear-dist && npm run build && npm run copy && npm publish ./dist"
   },
   "repository": {
     "type": "git",

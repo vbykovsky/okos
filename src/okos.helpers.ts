@@ -1,5 +1,5 @@
 import produce from "immer";
-import { OkosActionPayloadType, _OkosActionType, __OkosResultActionType } from "@okos/okos.types";
+import { OkosActionPayloadType, _OkosActionType, __OkosResultActionType } from "./okos.types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isAsyncFunction = (func: any) => (func as any).__proto__ === ((async () => 0) as any).__proto__;

@@ -1,4 +1,4 @@
-import { createStore, selectorFactory } from "@okos";
+import { createStore, selectorFactory } from "../index";
 
 export interface ICounterService {
   counter: number;

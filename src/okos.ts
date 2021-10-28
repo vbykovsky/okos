@@ -1,5 +1,5 @@
-import { generateAction, generateAsyncAction, isAsyncFunction } from "@okos/okos.helpers";
-import { OkosActionsType, OkosResultActionsType, OkosSubscriberType, __OkosResultActionType } from "@okos/okos.types";
+import { generateAction, generateAsyncAction, isAsyncFunction } from "./okos.helpers";
+import { OkosActionsType, OkosResultActionsType, OkosSubscriberType, __OkosResultActionType } from "./okos.types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class Okos<StateType = any> {

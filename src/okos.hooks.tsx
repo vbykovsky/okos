@@ -1,5 +1,5 @@
 import React from "react";
-import { Okos } from "@okos/okos";
+import { Okos } from "./okos";
 
 type OkosGetStoreStateType<StoreType extends Okos> = StoreType extends Okos<infer StateType> ? StateType : unknown;
 
