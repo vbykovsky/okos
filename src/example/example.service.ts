@@ -15,8 +15,24 @@ export const counterService = createStore(initialState, {
   decrement(state, additive: number) {
     this.increment(state, -additive);
   },
+  async asyncIncrement(state, additive: number) {
+    return new Promise((res) => {
+      setTimeout(() => {
+        state.counter += additive;
+        res();
+      }, 1000);
+    })
+  },
+  async asyncDecrement(state, additive: number) {
+    return new Promise((res) => {
+      setTimeout(() => {
+        state.counter -= additive;
+        res();
+      }, 1000);
+    })
+  }
 });
 
 export const useCounterSelector = selectorFactory(counterService.store);
 
-export const { increment, decrement } = counterService.actions;
+export const { increment, decrement, asyncIncrement, asyncDecrement } = counterService.actions;
