@@ -1,0 +1,40 @@
+{
+  "name": "okos",
+  "version": "1.0.0",
+  "description": "@okos is a library for storing and managing data in react",
+  "main": "src/indext.s",
+  "scripts": {
+    "dev": "webpack serve --env development",
+    "build": "webpack --env production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbykovsky/okos.git"
+  },
+  "author": "Vladislav Bykovskiy <vladislav.bykovskit@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vbykovsky/okos/issues"
+  },
+  "homepage": "https://github.com/vbykovsky/okos#readme",
+  "dependencies": {
+    "immer": "^9.0.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4",
+    "webpack": "^5.60.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0"
+  }
+}

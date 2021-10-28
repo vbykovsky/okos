@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "jsx": "react",
+
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@okos/*": ["src/*"],
+      "@okos": ["src/index.ts"],
+    },
+
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "downlevelIteration": true
+  },
+  "include": ["./src"]
+}
