@@ -16,7 +16,7 @@ export const Example = () => {
       <button onClick={stateIncrement}>increment</button>
       <button onClick={stateDecrement}>decrement</button>
       <br />
-      <h2>@okos</h2>
+      <h2>okos</h2>
       <h3>{okosCounter}</h3>
       <button onClick={okosIncrement.bind(null, 1)}>increment</button>
       <button onClick={okosDecrement.bind(null, 1)}>decrement</button>

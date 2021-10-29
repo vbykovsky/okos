@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const packageJson = require("../package.json");
+const packageJson = require("./package.json");
 
 const MAX_BUG_FIX_VERSION = 9;
 const MAX_MINOR_VERSION = 9;
@@ -28,8 +28,10 @@ const newVersion = [currentMajor, currentMinor, currentBugFix].join(".");
 
 packageJson.version = newVersion;
 
-console.log(JSON.stringify(packageJson, null, 4));
+const newPackageJsonContent = JSON.stringify(packageJson, null, 4);
 
-fs.writeFile(path.resolve("../", "package.json"), JSON.stringify(packageJson, null, 4), "utf-8", (error) => {
-    console.log(error);
+fs.writeFile(path.resolve("package.json"), JSON.stringify(packageJson, null, 4), "utf-8", (error) => {
+    if(error){
+        console.error("Package version incrementing error", error);
+    }
 });

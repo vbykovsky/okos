@@ -1,7 +1,15 @@
 {
     "name": "okos",
-    "version": "0.0.2",
+    "version": "0.0.5",
     "description": "@okos is a library for storing and managing data in react",
+    "keywords": [
+        "react",
+        "redux",
+        "mobx",
+        "@redux",
+        "@redux/toolkit",
+        "store"
+    ],
     "main": "index",
     "types": "index.d.ts",
     "scripts": {
@@ -9,7 +17,8 @@
         "build": "tsc",
         "clear-dist": "rm -rf dist",
         "copy": "cp package.json ./dist/ && cp README.md ./dist/",
-        "publish:dist": "npm run clear-dist && npm run build && npm run copy && npm publish ./dist"
+        "increment-package-version": "node ./incrementPackageVersion.js",
+        "publish:dist": "npm run clear-dist && npm run build && npm run increment-package-version && npm run copy && npm publish ./dist"
     },
     "repository": {
         "type": "git",
