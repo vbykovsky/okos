@@ -1,38 +1,50 @@
 import { Draft } from "immer";
 
+// HELPERS
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type OkosActionPayloadType = any;
-
 export type OkosSubscriberType<StateType> = (state: StateType) => void;
+export type OkosAsyncActionPromiseType<StateType> = ((state: Draft<StateType>) => void) | undefined;
 
-export type OkosAsyncActionPromiseType<StateType> = (state: Draft<StateType>) => void;
-
+// Action type
 export type OkosActionType<StateType> = (state: Draft<StateType>, payload: OkosActionPayloadType) => void;
-export type OkosAsyncActionType<StateType> = (payload: OkosActionPayloadType) => Promise<OkosAsyncActionPromiseType<StateType>>;
-
-export type _OkosActionType<StateType> = OkosActionType<StateType> | OkosAsyncActionType<StateType>;
-
 export type OkosActionsType<StateType> = {
-  [T in string]: OkosActionType<StateType> | OkosAsyncActionType<StateType>;
+  [T in string]: OkosActionType<StateType>;
 };
 
+// Async action type
+export type OkosAsyncActionType<StateType, ActionsType = any> = (state: Draft<StateType>, payload: OkosActionPayloadType, actions: ActionsType) => Promise<OkosAsyncActionPromiseType<StateType>>;
+export type OkosAsyncActionsType<StateType, ActionsType = any> = {
+  [T in string]: OkosAsyncActionType<StateType, ActionsType>;
+};
+
+// Union action type
+export type _OkosActionType<StateType> = OkosActionType<StateType> | OkosAsyncActionType<StateType>;
+
+// Result action type
 export type OkosResultActionType = () => void;
+export type OkosResultActionWithPayloadType<PayloadType> = (payload: PayloadType) => void;
+
+// Result async action type
 export type OkosResultAsyncActionType = () => Promise<void>;
+export type OkosResultAsyncActionWithPayloadType<PayloadType> = (payload: PayloadType) => Promise<void>;
+
+// Union result action type without payload
 export type _OkosResultActionType = OkosResultActionType | OkosResultAsyncActionType;
 
-export type OkosResultActionWithPayloadType<PayloadType> = (payload: PayloadType) => void;
-export type OkosResultAsyncActionWithPayloadType<PayloadType> = (payload: PayloadType) => Promise<void>;
+// Union result action type with payload
 export type _OkosResultActionWithPayloadType<PayloadType> =
   | OkosResultActionWithPayloadType<PayloadType>
   | OkosResultAsyncActionWithPayloadType<PayloadType>;
 
+// Union result action type
 export type __OkosResultActionType = _OkosResultActionType | _OkosResultActionWithPayloadType<OkosActionPayloadType>;
 
-export type OkosResultActionsType<StateType, ActionsType extends OkosActionsType<StateType>> = {
-  [T in keyof ActionsType]: ReturnType<ActionsType[T]> extends Promise<OkosAsyncActionPromiseType<StateType>>
-  ? Parameters<ActionsType[T]> extends [infer PayloadType] ? OkosResultAsyncActionWithPayloadType<PayloadType>
-  : OkosResultAsyncActionType
-  : Parameters<ActionsType[T]> extends [Draft<StateType>, infer PayloadType] ? OkosResultActionWithPayloadType<PayloadType>
+export type OkosResultActionsType<StateType, ActionsType extends OkosActionsType<StateType>, AsyncActionsType extends OkosAsyncActionsType<StateType>> = {
+  [T in keyof ActionsType]: Parameters<ActionsType[T]> extends [Draft<StateType>, infer PayloadType] ? OkosResultActionWithPayloadType<PayloadType>
   :
   OkosResultActionType;
-};
+} & {
+    [T in keyof AsyncActionsType]: Parameters<AsyncActionsType[T]> extends [Draft<StateType>, infer PayloadType] ? OkosResultAsyncActionWithPayloadType<PayloadType>
+    : OkosResultAsyncActionType;
+  }

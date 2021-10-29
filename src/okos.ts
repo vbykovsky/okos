@@ -1,5 +1,5 @@
-import { generateAction, generateAsyncAction, isAsyncFunction } from "./okos.helpers";
-import { OkosActionsType, OkosResultActionsType, OkosSubscriberType, _OkosActionType, __OkosResultActionType } from "./okos.types";
+import { generateAction, generateAsyncAction } from "./okos.helpers";
+import { OkosActionsType, OkosAsyncActionsType, OkosResultActionsType, OkosSubscriberType, _OkosActionType, __OkosResultActionType } from "./okos.types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class Okos<StateType = any> {
@@ -36,21 +36,26 @@ export class Okos<StateType = any> {
 export function createStore<
   StateType,
   ActionsType extends OkosActionsType<StateType>,
-  ResultActions = OkosResultActionsType<StateType, ActionsType>
+  AsyncActionsType extends OkosAsyncActionsType<StateType, ActionsType>,
+  ResultActions = OkosResultActionsType<StateType, ActionsType, AsyncActionsType>
 >(
   initialState: StateType,
-  actions: ActionsType
+  actions: ActionsType = {} as ActionsType,
+  asyncActions: AsyncActionsType = {} as AsyncActionsType
 ): {
   store: Okos<StateType>;
   actions: ResultActions;
 } {
   const store = new Okos(initialState);
 
-  const resultActions: [keyof ActionsType, __OkosResultActionType][] = [];
+  const resultActions: [keyof ActionsType | keyof AsyncActionsType, __OkosResultActionType][] = [];
 
   for (const [actionName, actionCB] of Object.entries(actions)) {
-    const generateFunction = isAsyncFunction(actionCB) ? generateAsyncAction : generateAction;
-    resultActions.push([actionName, generateFunction(actionCB.bind(actions) as any, store)]);
+    resultActions.push([actionName, generateAction(actionCB.bind(actions), store)]);
+  }
+
+  for (const [actionName, actionCB] of Object.entries(asyncActions)) {
+    resultActions.push([actionName, generateAsyncAction(actionCB.bind(asyncActions), actions, store)]);
   }
 
   return {

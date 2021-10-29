@@ -10,20 +10,29 @@ const initialState: ICounterService = {
 };
 
 export const counterService = createStore(initialState, {
-  increment(state, additive: number = 1) {
+  increment(state, additive: number) {
     state.counter += additive;
   },
-  decrement(state, additive: number = 1) {
+  decrement(state, additive: number) {
     this.increment(state, -additive);
   },
-  async asyncIncrement(additive: number) {
-    return this.increment;
+}, {
+  async asyncIncrement(state, additive: number, actions) {
+    console.log("counter was:", state.counter);
+    
+    return (newState) => {
+      actions.increment(newState, additive);
+      console.log("async incremented is:", newState.counter);
+    }
   },
-  async asyncDecrement(additive: number) {
-    return new Promise<(state: Draft<ICounterService>) => void>((res) => {
+  async asyncDecrement(state, additive: number, actions) {
+    console.log("counter was:", state.counter);
+
+    return new Promise((res) => {
       setTimeout(() => {
-        res((state) => {
-          state.counter -= additive;
+        res((newState) => { 
+          actions.decrement(newState, additive);
+          console.log("async decremented is:", newState.counter);
         });
       }, 1000);
     })
