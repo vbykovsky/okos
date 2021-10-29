@@ -33,19 +33,19 @@ export class Okos<StateType = any> {
   }
 }
 
-export function createStore<
+export const createStore = <
   StateType,
   ActionsType extends OkosActionsType<StateType>,
   AsyncActionsType extends OkosAsyncActionsType<StateType, ActionsType>,
   ResultActions = OkosResultActionsType<StateType, ActionsType, AsyncActionsType>
 >(
   initialState: StateType,
-  actions: ActionsType = {} as ActionsType,
-  asyncActions: AsyncActionsType = {} as AsyncActionsType
+  actions: ActionsType = <ActionsType>{},
+  asyncActions: AsyncActionsType = <AsyncActionsType>{}
 ): {
   store: Okos<StateType>;
   actions: ResultActions;
-} {
+} => {
   const store = new Okos(initialState);
 
   const resultActions: [keyof ActionsType | keyof AsyncActionsType, __OkosResultActionType][] = [];
