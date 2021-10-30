@@ -1,5 +1,12 @@
 import { generateAction, generateAsyncAction } from "./okos.helpers";
-import { OkosActionsType, OkosAsyncActionsType, OkosResultActionsType, OkosSubscriberType, _OkosActionType, __OkosResultActionType } from "./okos.types";
+import {
+  OkosActionsType,
+  OkosAsyncActionsType,
+  OkosResultActionsType,
+  OkosSubscriberType,
+  _OkosActionType,
+  __OkosResultActionType,
+} from "./okos.types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class Okos<StateType = any> {
@@ -35,7 +42,7 @@ export class Okos<StateType = any> {
 
 export const createStore = <
   StateType,
-  ActionsType extends OkosActionsType<StateType>,
+  ActionsType extends OkosActionsType<StateType, ActionsType>,
   AsyncActionsType extends OkosAsyncActionsType<StateType, ActionsType>,
   ResultActions = OkosResultActionsType<StateType, ActionsType, AsyncActionsType>
 >(
@@ -62,4 +69,4 @@ export const createStore = <
     store,
     actions: Object.fromEntries(resultActions) as unknown as ResultActions,
   };
-}
+};

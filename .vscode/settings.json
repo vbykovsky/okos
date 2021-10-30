@@ -1,0 +1,10 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+
+  "editor.tabSize": 2,
+  "editor.foldingHighlight": false,
+
+  "cSpell.language": "en,ru",
+}

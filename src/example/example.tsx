@@ -1,5 +1,11 @@
 import React from "react";
-import { increment as okosIncrement, decrement as okosDecrement, useCounterSelector, asyncIncrement, asyncDecrement } from "./example.service";
+import {
+  increment as okosIncrement,
+  decrement as okosDecrement,
+  useCounterSelector,
+  asyncIncrement,
+  asyncDecrement,
+} from "./example.service";
 
 export const Example = () => {
   const okosCounter = useCounterSelector((state) => state.counter);
