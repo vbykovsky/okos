@@ -42,7 +42,7 @@ export class Okos<StateType = any> {
 
 export const createStore = <
   StateType,
-  ActionsType extends OkosActionsType<StateType, ActionsType>,
+  ActionsType extends OkosActionsType<StateType>,
   AsyncActionsType extends OkosAsyncActionsType<StateType, ActionsType>,
   ResultActions = OkosResultActionsType<StateType, ActionsType, AsyncActionsType>
 >(

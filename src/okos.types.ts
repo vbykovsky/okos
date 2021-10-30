@@ -8,14 +8,10 @@ export type OkosAsyncActionPromiseType<StateType> = ((state: Draft<StateType>) =
 
 // Action type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type OkosActionType<StateType, ActionsType = any> = (
-  state: Draft<StateType>,
-  payload: OkosActionPayloadType,
-  actions: ActionsType
-) => void;
+export type OkosActionType<StateType> = (state: Draft<StateType>, payload: OkosActionPayloadType) => void;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type OkosActionsType<StateType, ActionsType = any> = {
-  [T in string]: OkosActionType<StateType, ActionsType>;
+export type OkosActionsType<StateType> = {
+  [T in string]: OkosActionType<StateType>;
 };
 
 // Async action type

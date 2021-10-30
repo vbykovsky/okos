@@ -10,7 +10,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  ignorePatterns: ["incrementPackageVersion.js", "webpack.config.js"],
+  ignorePatterns: ["incrementPackageVersion.js", "webpack.config.js", "dist"],
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
