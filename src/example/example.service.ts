@@ -1,4 +1,3 @@
-import { Draft } from "immer";
 import { createStore, selectorFactory } from "../index";
 
 export interface ICounterService {
