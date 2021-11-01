@@ -6,5 +6,4 @@ import * as core from "./okos";
 import * as hooks from "./okos.hooks";
 import * as types from "./okos.types";
 
-
 export default { ...core, ...hooks, ...types };

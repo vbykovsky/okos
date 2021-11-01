@@ -8,35 +8,39 @@ const initialState: ICounterService = {
   counter: 0,
 };
 
-export const counterService = createStore(initialState, {
-  increment(state, additive: number) {
-    state.counter += additive;
+export const counterService = createStore(
+  initialState,
+  {
+    increment(state, additive: number) {
+      state.counter += additive;
+    },
+    decrement(state, additive: number) {
+      this.increment(state, -additive);
+    },
   },
-  decrement(state, additive: number) {
-    this.increment(state, -additive);
-  },
-}, {
-  async asyncIncrement(state, additive: number, actions) {
-    console.log("counter was:", state.counter);
-    
-    return (newState) => {
-      actions.increment(newState, additive);
-      console.log("async incremented is:", newState.counter);
-    }
-  },
-  async asyncDecrement(state, additive: number, actions) {
-    console.log("counter was:", state.counter);
+  {
+    async asyncIncrement(state, additive: number, actions) {
+      console.log("counter was:", state.counter);
 
-    return new Promise((res) => {
-      setTimeout(() => {
-        res((newState) => { 
-          actions.decrement(newState, additive);
-          console.log("async decremented is:", newState.counter);
-        });
-      }, 1000);
-    })
+      return (newState) => {
+        actions.increment(newState, additive);
+        console.log("async incremented is:", newState.counter);
+      };
+    },
+    async asyncDecrement(state, additive: number, actions) {
+      console.log("counter was:", state.counter);
+
+      return new Promise((res) => {
+        setTimeout(() => {
+          res((newState) => {
+            actions.decrement(newState, additive);
+            console.log("async decremented is:", newState.counter);
+          });
+        }, 1000);
+      });
+    },
   }
-});
+);
 
 export const useCounterSelector = selectorFactory(counterService.store);
 

@@ -14,14 +14,14 @@ let currentMajor = currentVersionArray[0];
 
 currentBugFix++;
 
-if(currentBugFix > MAX_BUG_FIX_VERSION){
-    currentBugFix = 0;
-    currentMinor++;
+if (currentBugFix > MAX_BUG_FIX_VERSION) {
+  currentBugFix = 0;
+  currentMinor++;
 }
 
-if(currentMinor > MAX_MINOR_VERSION){
-    currentMinor = 0;
-    currentMajor++;
+if (currentMinor > MAX_MINOR_VERSION) {
+  currentMinor = 0;
+  currentMajor++;
 }
 
 const newVersion = [currentMajor, currentMinor, currentBugFix].join(".");
@@ -30,8 +30,8 @@ packageJson.version = newVersion;
 
 const newPackageJsonContent = JSON.stringify(packageJson, null, 4);
 
-fs.writeFile(path.resolve("package.json"), JSON.stringify(packageJson, null, 4), "utf-8", (error) => {
-    if(error){
-        console.error("Package version incrementing error", error);
-    }
+fs.writeFile(path.resolve("package.json"), newPackageJsonContent, "utf-8", (error) => {
+  if (error) {
+    console.error("Package version incrementing error", error);
+  }
 });
