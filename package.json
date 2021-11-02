@@ -1,6 +1,6 @@
 {
     "name": "okos",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "@okos is a library for storing and managing data in react",
     "keywords": [
         "react",
